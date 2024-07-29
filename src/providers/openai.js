@@ -21,7 +21,7 @@ class OpenAI extends Provider {
 
 	static handleSubmit() {
 		this.getWebview().executeJavaScript(`{
-        var btn = document.querySelector('button[data-testid="fruitjuice-send-button"]');
+        var btn = document.querySelector('button[data-testid="send-button"]') || document.querySelector('button[data-testid="fruitjuice-send-button"]');
         if (btn) {
             btn.focus();
             btn.disabled = false;
