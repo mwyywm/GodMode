@@ -18,6 +18,7 @@ import {
 	ipcMain,
 	globalShortcut,
 	Event,
+	Menu,
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -363,7 +364,8 @@ function setSuperpromptFocusState(state: boolean) {
 function quickOpen() {
 	if (mainWindow && !mainWindow.isDestroyed()) {
 		if (mainWindow.isFocused()) {
-			mainWindow.hide();
+			Menu.sendActionToFirstResponder('hide:');
+			// mainWindow.hide();
 		} else {
 			if (mainWindow.isMinimized()) {
 				mainWindow.restore();
