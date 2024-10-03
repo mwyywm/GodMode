@@ -10,11 +10,9 @@ class OpenAI extends Provider {
 	static handleInput(input) {
 		const fullName = this.fullName;
 		this.getWebview().executeJavaScript(`{
-        var inputElement = document.querySelector('#prompt-textarea');
+        var inputElement = document.querySelector('div#prompt-textarea > p')
         if (inputElement) {
-          const inputEvent = new Event('input', { bubbles: true });
-          inputElement.value = \`${input}\`; // must be escaped backticks to support multiline
-          inputElement.dispatchEvent(inputEvent);
+          inputElement.textContent = \`${input}\`; // must be escaped backticks to support multiline
         }
       }`);
 	}
