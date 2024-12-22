@@ -18,9 +18,11 @@ import Poe from 'providers/poe';
 import InflectionPi from 'providers/inflection';
 import StableChat from 'providers/stablechat';
 import Falcon180BSpace from 'providers/falcon180bspace';
+import Grok from 'providers/grok';
 
 export const allProviders = [
 	OpenAi,
+	Grok,
 	Bard,
 	Bing,
 	Claude,
