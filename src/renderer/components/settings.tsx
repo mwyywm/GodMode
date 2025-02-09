@@ -90,7 +90,7 @@ export default function SettingsMenu({
 			setShortcut(initialShortcut?.split('+'));
 		};
 		const setInitialSuperpromptFocus = async () => {
-			const initialState = await settings.getFocusSuperprompt();
+			const initialState = await settings.getFocusSuperpromptSetting();
 			setSuperpromptFocus(initialState);
 		};
 		displayShortcut();
@@ -110,7 +110,7 @@ export default function SettingsMenu({
 	// Toggle superprompt focus setting in electron store
 	useEffect(() => {
 		const updateSuperpromptFocus = async () => {
-			await settings.setFocusSuperprompt(superpromptFocus);
+			await settings.setFocusSuperpromptSetting(superpromptFocus);
 		};
 		updateSuperpromptFocus();
 	}, [superpromptFocus]);

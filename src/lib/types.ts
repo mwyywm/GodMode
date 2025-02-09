@@ -5,7 +5,7 @@ export interface ProviderInterface {
 	fullName: string;
 	shortName: string;
 	webviewId: string;
-	getWebview(): HTMLElement | null;
+	getWebview(): Electron.WebviewTag;
 	url: string;
 	paneId(): string;
 	setupCustomPasteBehavior(): void;
@@ -27,8 +27,8 @@ export interface ProviderInterface {
 export interface Settings {
 	getGlobalShortcut: () => Promise<string>;
 	setGlobalShortcut: (shortcut: string) => Promise<boolean>;
-	getFocusSuperprompt: () => Promise<boolean>;
-	setFocusSuperprompt: (state: boolean) => Promise<boolean>;
+	getFocusSuperpromptSetting: () => Promise<boolean>;
+	setFocusSuperpromptSetting: (state: boolean) => Promise<boolean>;
 	getPlatform: () => Promise<string>;
 }
 

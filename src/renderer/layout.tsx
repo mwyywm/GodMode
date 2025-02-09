@@ -78,7 +78,6 @@ export default function Layout() {
 		});
 	}, [enabledProviders, superprompt]);
 
-	const formRef = React.useRef<HTMLDivElement>(null); // don't actually use a <form> because it will just reload on submit even if you preventdefault
 	const SuperPromptEnterKey = window.electron.electronStore.get(
 		'SuperPromptEnterKey',
 		false,
@@ -100,11 +99,7 @@ export default function Layout() {
 		}
 	}
 
-	const windowRef = React.useRef<HTMLDivElement>(null);
-
 	function updateSplitSizes(panes: any[], focalIndex: number | null = null) {
-		// const clientWidth = windowRef.current?.clientWidth!;
-		// const remainingWidth = ((clientWidth - 100) / clientWidth) * 100;
 		const remainingWidth = 100;
 		// Handle specific pane focus
 		if (focalIndex !== null || focalIndex === 'A') {
@@ -205,7 +200,7 @@ export default function Layout() {
 	}
 
 	return (
-		<div id="windowRef" className="flex flex-col" ref={windowRef}>
+		<div id="windowRef" className="flex flex-col">
 			<TitleBar {...{ isAlwaysOnTop, toggleIsAlwaysOnTop }} />
 			<SettingsMenu
 				open={isSettingsOpen}
@@ -235,7 +230,6 @@ export default function Layout() {
 			</Split>
 			<div
 				// not a form, because the form submit causes a reload for some reason even if we preventdefault.
-				ref={formRef}
 				id="form"
 				className=""
 				// onKeyDown={handleSubmit}
