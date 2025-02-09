@@ -54,6 +54,11 @@ const electronHandler = {
 			ipcRenderer.send('disable-open-at-login');
 		},
 	},
+	mainWindow: {
+		focusSuperprompt() {
+			ipcRenderer.send('focus-superprompt');
+		},
+	},
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);

@@ -200,7 +200,7 @@ export default function Layout() {
 	}
 
 	return (
-		<div id="windowRef" className="flex flex-col">
+		<div className="flex flex-col">
 			<TitleBar {...{ isAlwaysOnTop, toggleIsAlwaysOnTop }} />
 			<SettingsMenu
 				open={isSettingsOpen}

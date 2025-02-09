@@ -69,6 +69,11 @@ ipcMain.on('get-always-on-top', async (event, property, val) => {
 	const bool = mainWindow?.isAlwaysOnTop();
 	event.returnValue = bool;
 });
+ipcMain.on('focus-superprompt', async (event, property, val) => {
+	mainWindow?.webContents.executeJavaScript(
+		`{document.querySelector('#prompt')?.focus()}`,
+	);
+});
 
 const appFolder = path.dirname(process.execPath);
 const updateExe = path.resolve(appFolder, '..', 'Update.exe');
@@ -399,11 +404,11 @@ ipcMain.handle('set-global-shortcut', async (event, shortcut: string) => {
 	return true;
 });
 
-ipcMain.handle('get-focus-superprompt', () => {
+ipcMain.handle('get-focus-superprompt-setting', () => {
 	return store.get('focusSuperpromptEnabled', false);
 });
 
-ipcMain.handle('set-focus-superprompt', async (_, state: boolean) => {
+ipcMain.handle('set-focus-superprompt-setting', async (_, state: boolean) => {
 	setSuperpromptFocusState(state);
 	return true;
 });
