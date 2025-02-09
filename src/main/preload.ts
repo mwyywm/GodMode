@@ -54,6 +54,11 @@ const electronHandler = {
 			ipcRenderer.send('disable-open-at-login');
 		},
 	},
+	mainWindow: {
+		focusSuperprompt() {
+			ipcRenderer.send('focus-superprompt');
+		},
+	},
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
@@ -65,11 +70,11 @@ contextBridge.exposeInMainWorld('settings', {
 	setGlobalShortcut: (shortcut: string) => {
 		return ipcRenderer.invoke('set-global-shortcut', shortcut);
 	},
-	getFocusSuperprompt: () => {
-		return ipcRenderer.invoke('get-focus-superprompt');
+	getFocusSuperpromptSetting: () => {
+		return ipcRenderer.invoke('get-focus-superprompt-setting');
 	},
-	setFocusSuperprompt: (state: boolean) => {
-		return ipcRenderer.invoke('set-focus-superprompt', state);
+	setFocusSuperpromptSetting: (state: boolean) => {
+		return ipcRenderer.invoke('set-focus-superprompt-setting', state);
 	},
 	getPlatform: () => {
 		return ipcRenderer.invoke('get-platform');

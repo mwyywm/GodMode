@@ -140,6 +140,7 @@ export default function Pane({
 						.getWebview()
 						// @ts-ignore
 						.setZoomLevel(provider.getWebview().getZoomLevel() - 2);
+					window.electron.mainWindow.focusSuperprompt();
 				}}
 			>
 				<DialogXContent
@@ -155,7 +156,6 @@ export default function Pane({
 									onClick={() => {
 										provider
 											.getWebview()
-											// @ts-ignore
 											.setZoomLevel(provider.getWebview().getZoomLevel() + 1);
 									}}
 								>
@@ -166,7 +166,6 @@ export default function Pane({
 									onClick={() => {
 										provider
 											.getWebview()
-											// @ts-ignore
 											.setZoomLevel(provider.getWebview().getZoomLevel() - 1);
 									}}
 								>
@@ -175,10 +174,7 @@ export default function Pane({
 								<XButton
 									tooltip={`Reset Zoom`} // : ${CmdOrCtrlKey} + 0`}
 									onClick={() => {
-										provider
-											.getWebview()
-											// @ts-ignore
-											.setZoomLevel(0);
+										provider.getWebview().setZoomLevel(0);
 									}}
 								>
 									<MagnifyingGlassIcon />
