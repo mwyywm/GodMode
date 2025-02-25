@@ -18,7 +18,7 @@ import StableChat from 'providers/stablechat';
 import Grok from 'providers/grok';
 import Deepseek from 'providers/deepseek';
 import AIStudio from 'providers/aistudio';
-
+import Mistral from 'providers/mistral';
 export const allProviders = [
 	OpenAi,
 	Grok,
@@ -29,6 +29,7 @@ export const allProviders = [
 	Deepseek,
 	YouChat,
 	Perplexity,
+	Mistral,
 	Phind,
 	Poe,
 	InflectionPi,
