@@ -3,9 +3,9 @@ const Provider = require('./provider');
 class Claude extends Provider {
 	static webviewId = 'webviewCLAUDE';
 	static fullName = 'Anthropic Claude';
-	static shortName = 'Claude1';
+	static shortName = 'Claude.ai';
 
-	static url = 'https://console.anthropic.com/chat/new';
+	static url = 'https://claude.ai/chats/';
 
 	static handleInput(input) {
 		const fullName = this.fullName;
@@ -14,18 +14,20 @@ class Claude extends Provider {
 		if (inputElement) {
 			inputElement.innerHTML = \`${input}\`
 		}
-		}`);
+	}`);
 	}
 
 	static handleSubmit() {
 		this.getWebview().executeJavaScript(`{
-    var btn = document.querySelector('div.group.grid.p-3 button:has(svg)'); // YES we are using the has selector!!!!
+		var btn = document.querySelector("button[aria-label*='Send Message']"); // subsequent screens use this
+    if (!btn) var btn = document.querySelector('button:has(div svg)'); // new chats use this
+    if (!btn) var btn = document.querySelector('button:has(svg)'); // last ditch attempt
 		if (btn) {
 			btn.focus();
 			btn.disabled = false;
-			btn.click()
+			btn.click();
 		}
-	}`);
+  }`);
 	}
 
 	static handleCss() {
@@ -33,11 +35,6 @@ class Claude extends Provider {
 			// hide message below text input, sidebar, suggestions on new chat
 			setTimeout(() => {
 				this.getWebview().insertCSS(`
-        header, .container {
-          background-color: white;
-          /* single line dark mode ftw */
-          filter: invert(100%) hue-rotate(180deg);
-        }
         /* hide the claude avatar in response */
         .p-1.w-9.h-9.shrink-0 {
           display: none;
@@ -46,12 +43,19 @@ class Claude extends Provider {
         .mx-4.md\:mx-12.mb-2.md\:mb-4.mt-2.w-auto {
           margin: 0 !important;
         }
+
         `);
-			}, 100);
+			}, 1000);
+			setTimeout(() => {
+				this.getWebview().executeJavaScript(`{
+				// hide welcome back title
+				document.querySelector('h2').style.display = 'none';
+				}`);
+			}, 1000);
 		});
 	}
 
-	static toggleDarkMode() {
+	static handleDarkMode(isDarkMode) {
 		if (isDarkMode) {
 			this.getWebview().insertCSS(`
 				body {
@@ -69,8 +73,12 @@ class Claude extends Provider {
 		}
 	}
 
+	static getUserAgent() {
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36';
+	}
+
 	static isEnabled() {
-		return window.electron.electronStore.get(`${this.webviewId}Enabled`, false);
+		return window.electron.electronStore.get(`${this.webviewId}Enabled`, true);
 	}
 }
 

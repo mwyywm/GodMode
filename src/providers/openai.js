@@ -30,33 +30,7 @@ class OpenAI extends Provider {
 	}
 
 	static handleCss() {
-		this.getWebview().addEventListener('dom-ready', () => {
-			// hide message below text input, sidebar, suggestions on new chat
-			this.getWebview().insertCSS(`
-        body {
-          scrollbar-width: none;
-        }
-        .text-xs.text-center {
-            opacity: 0;
-            height: 0;
-            margin-bottom: -10px;
-          }
-
-          [class*="shared__Wrapper"] {
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-top: 15vh;
-          }
-
-          [class*="shared__Wrapper"] h3 {
-            margin-top: -40px;
-            font-size: 20px;
-          }
-
-
-        `);
-		});
+		// this.getWebview().addEventListener('dom-ready', () => {});
 	}
 
 	static isEnabled() {
