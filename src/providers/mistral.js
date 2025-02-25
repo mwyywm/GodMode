@@ -37,6 +37,12 @@ class Mistral extends Provider {
 	static handleSubmit() {
 		this.getWebview().executeJavaScript(`
             try {
+                const inputElement = document.querySelector("body > main textarea");
+		let tempValue = inputElement.value;
+		inputElement.value = "";
+                inputElement.setRangeText(tempValue); // submit button doesn't work without this.
+                inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+
                 const submitButton = document.querySelector('button[aria-label^="Send"]');
                 if (!submitButton) {
                     throw new Error('Submit button not found');
