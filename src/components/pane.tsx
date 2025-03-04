@@ -77,12 +77,10 @@ export default function Pane({
 			<div className="hidden powerbar group-hover:block">
 				<Button
 					className="text-xs shadow-2xl"
-					onClick={() => {
+					onClick={async () => {
 						setOpenPreviewPane(number);
 						console.log('zooming in on ', provider);
-						// @ts-ignore
-						const zoomLevel = provider?.getWebview()?.getZoomLevel() + 2;
-						// @ts-ignore
+						const zoomLevel = await window.settings.getZoomSetting();
 						provider.getWebview()?.setZoomLevel(zoomLevel);
 					}}
 					variant="ghost"
@@ -109,10 +107,13 @@ export default function Pane({
 				onOpenChange={() => {
 					setOpenPreviewPane(0);
 					// zoom out when dropping out of preview
-					provider
-						.getWebview()
-						// @ts-ignore
-						.setZoomLevel(provider.getWebview().getZoomLevel() - 2);
+					const resetZoom = async () => {
+						const zoomSetting = await window.settings.getZoomSetting();
+						provider
+							.getWebview()
+							.setZoomLevel(provider.getWebview().getZoomLevel() - zoomSetting);
+					};
+					resetZoom();
 					window.electron.mainWindow.focusSuperprompt();
 				}}
 			>
