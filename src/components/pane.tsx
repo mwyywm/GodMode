@@ -51,33 +51,6 @@ export default function Pane({
 		return () => clearInterval(interval);
 	});
 
-	// this did not work not sure why
-	// // set a timer effect every second to check if the webview is can go back
-	// const [canGoBack, setCanGoBack] = React.useState(false);
-	// const [canGoFwd, setCanGoFwd] = React.useState(false);
-	// React.useEffect(() => {
-	// 	const interval = setInterval(() => {
-	// 		console.log(
-	// 			'provider.getWebview()?.canGoBack()',
-	// 			provider.getWebview(),
-	// 			provider.getWebview()?.canGoBack()
-	// 		);
-	// 		// @ts-ignore
-	// 		if (provider.getWebview()?.canGoBack()) {
-	// 			setCanGoBack(true);
-	// 		} else {
-	// 			setCanGoBack(false);
-	// 		}
-	// 		// @ts-ignore
-	// 		if (provider.getWebview()?.canGoForward()) {
-	// 			setCanGoFwd(true);
-	// 		} else {
-	// 			setCanGoFwd(true);
-	// 		}
-	// 	}, 1000);
-	// 	return () => clearInterval(interval);
-	// });
-
 	function XButton({ children, tooltip, onClick, className = '' }: any) {
 		return (
 			<TooltipProvider delayDuration={300}>
@@ -197,7 +170,7 @@ export default function Pane({
 									<ReloadIcon />
 								</XButton>
 								<XButton
-									tooltip={`Go Back`} // : ${CmdOrCtrlKey} + H`}
+									tooltip={`Go Back`}
 									onClick={() => {
 										provider.getWebview()?.goBack();
 									}}
@@ -205,7 +178,7 @@ export default function Pane({
 									<ArrowLeftIcon />
 								</XButton>
 								<XButton
-									tooltip={`Go forward`} // : ${CmdOrCtrlKey} + L`}
+									tooltip={`Go forward`}
 									onClick={() => {
 										provider.getWebview()?.goForward();
 									}}

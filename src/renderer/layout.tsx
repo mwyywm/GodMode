@@ -246,7 +246,7 @@ export default function Layout() {
 						name="prompt"
 						placeholder={`Enter a superprompt here.
 - Quick Open: ${CmdOrCtrlKey}+Shift+G or Submit: ${CmdOrCtrlKey}+Enter
-- Switch windows: ${CmdOrCtrlKey}+1/2/3/etc, or Global Resize/Pin: ${CmdOrCtrlKey} -/+/p, or Back/Fwd: ${CmdOrCtrlKey} H/L
+- Switch windows: ${CmdOrCtrlKey}+1/2/3/etc, or Global Resize/Pin: ${CmdOrCtrlKey} -/+/p
 - New chat: ${CmdOrCtrlKey}+R or Reset windows evenly: ${CmdOrCtrlKey}+Shift+A`}
 					/>
 					<div className="flex items-center justify-center p-4 space-x-2">
