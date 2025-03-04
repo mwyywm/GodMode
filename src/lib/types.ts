@@ -29,6 +29,8 @@ export interface Settings {
 	setGlobalShortcut: (shortcut: string) => Promise<boolean>;
 	getFocusSuperpromptSetting: () => Promise<boolean>;
 	setFocusSuperpromptSetting: (state: boolean) => Promise<boolean>;
+	getZoomSetting: () => Promise<number>;
+	setZoomSetting: (level: number) => Promise<boolean>;
 	getPlatform: () => Promise<string>;
 }
 

@@ -32,31 +32,7 @@ class Perplexity extends Provider {
       }`);
 	}
 
-	static handleCss() {
-		this.getWebview().addEventListener('dom-ready', () => {
-			// hide message below text input, sidebar, suggestions on new chat
-			setTimeout(() => {
-				this.getWebview().executeJavaScript(`
-
-
-          `);
-			}, 100);
-			// Hide the "Try asking" segment
-			setTimeout(() => {
-				this.getWebview().insertCSS(`
-        body {
-					zoom: 80%;
-					font-size: small;
-        }
-
-        .mt-lg {
-          display: none;
-        }
-		    `);
-			}, 100);
-		});
-		// this.getWebview().setZoomLevel(this.getWebview().getZoomLevel() - 2);
-	}
+	static handleCss() {}
 
 	static getUserAgent() {
 		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36';

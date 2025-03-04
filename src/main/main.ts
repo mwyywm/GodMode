@@ -111,6 +111,16 @@ ipcMain.handle('get-open-at-login', () => {
 	return openAtLogin;
 });
 
+ipcMain.handle('get-zoom-setting', () => {
+	return store.get('zoomSetting', 2);
+});
+
+ipcMain.handle('set-zoom-setting', async (_, level: number) => {
+	if (typeof level !== 'number' || level < 0 || level > 6) return false;
+	store.set('zoomSetting', level);
+	return true;
+});
+
 ipcMain.on('prompt-hidden-chat', async (event, channel: string, prompt) => {
 	const sendFn = (...args: any[]) =>
 		mainWindow?.webContents.send(channel, ...args);
@@ -422,6 +432,11 @@ app.on('ready', () => {
 		globalShortcut.register(quickOpenDefaultShortcut, quickOpen);
 	}
 	store.set('focusSuperpromptEnabled', focusSuperpromptDefault);
+
+	// Initialize zoom level if not set
+	if (!store.has('zoomSetting')) {
+		store.set('zoomSetting', 2);
+	}
 
 	/*
 	 * Re-register global shortcut when it is changed in settings

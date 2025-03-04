@@ -10,6 +10,7 @@ import {
 	isValidShortcut,
 	type ShortcutKey,
 } from 'lib/utils';
+import { Input } from './ui/input';
 
 export default function SettingsMenu({
 	open,
@@ -24,6 +25,7 @@ export default function SettingsMenu({
 	const [metaKey, setMetaKey] = useState('');
 	const [openAtLogin, setOpenAtLogin] = useState(false);
 	const [superpromptFocus, setSuperpromptFocus] = useState(false);
+	const [zoomSetting, setZoomSetting] = useState(2);
 
 	function classNames(...classes) {
 		return classes.filter(Boolean).join(' ');
@@ -150,6 +152,21 @@ export default function SettingsMenu({
 			: window.electron.browserWindow.disableOpenAtLogin();
 	}, [openAtLogin]);
 
+	useEffect(() => {
+		const fetchZoomSetting = async () => {
+			const level = await settings.getZoomSetting();
+			setZoomSetting(level);
+		};
+		fetchZoomSetting();
+	}, []);
+
+	useEffect(() => {
+		const updateZoomSetting = async () => {
+			await settings.setZoomSetting(zoomSetting);
+		};
+		updateZoomSetting();
+	}, [zoomSetting]);
+
 	return (
 		<Dialog open={open} onOpenChange={onClose}>
 			<DialogContent className="bg-white">
@@ -190,7 +207,7 @@ export default function SettingsMenu({
 							className="text-sm font-medium leading-6 text-gray-900"
 							passive
 						>
-							Focus superprompt input on quick open shortcut
+							Focus Superprompt on Quick Open Shortcut
 						</Switch.Label>
 					</span>
 					<Switch
@@ -210,6 +227,25 @@ export default function SettingsMenu({
 						/>
 					</Switch>
 				</Switch.Group>
+				<div className="flex items-center justify-between py-4">
+					<span className="text-sm font-medium leading-6 text-gray-900">
+						Preview Zoom Level
+					</span>
+					<Input
+						type="number"
+						min={0}
+						max={6}
+						step={0.5}
+						value={zoomSetting}
+						onChange={(e) => {
+							const value = +parseFloat(e.target.value).toFixed(2);
+							if (!isNaN(value) && value >= 0 && value <= 6) {
+								setZoomSetting(value);
+							}
+						}}
+						className="w-20 text-center"
+					/>
+				</div>
 				<span className="flex flex-col flex-grow">
 					<div
 						as="span"

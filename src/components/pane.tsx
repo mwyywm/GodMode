@@ -51,33 +51,6 @@ export default function Pane({
 		return () => clearInterval(interval);
 	});
 
-	// this did not work not sure why
-	// // set a timer effect every second to check if the webview is can go back
-	// const [canGoBack, setCanGoBack] = React.useState(false);
-	// const [canGoFwd, setCanGoFwd] = React.useState(false);
-	// React.useEffect(() => {
-	// 	const interval = setInterval(() => {
-	// 		console.log(
-	// 			'provider.getWebview()?.canGoBack()',
-	// 			provider.getWebview(),
-	// 			provider.getWebview()?.canGoBack()
-	// 		);
-	// 		// @ts-ignore
-	// 		if (provider.getWebview()?.canGoBack()) {
-	// 			setCanGoBack(true);
-	// 		} else {
-	// 			setCanGoBack(false);
-	// 		}
-	// 		// @ts-ignore
-	// 		if (provider.getWebview()?.canGoForward()) {
-	// 			setCanGoFwd(true);
-	// 		} else {
-	// 			setCanGoFwd(true);
-	// 		}
-	// 	}, 1000);
-	// 	return () => clearInterval(interval);
-	// });
-
 	function XButton({ children, tooltip, onClick, className = '' }: any) {
 		return (
 			<TooltipProvider delayDuration={300}>
@@ -104,12 +77,10 @@ export default function Pane({
 			<div className="hidden powerbar group-hover:block">
 				<Button
 					className="text-xs shadow-2xl"
-					onClick={() => {
+					onClick={async () => {
 						setOpenPreviewPane(number);
 						console.log('zooming in on ', provider);
-						// @ts-ignore
-						const zoomLevel = provider?.getWebview()?.getZoomLevel() + 2;
-						// @ts-ignore
+						const zoomLevel = await window.settings.getZoomSetting();
 						provider.getWebview()?.setZoomLevel(zoomLevel);
 					}}
 					variant="ghost"
@@ -136,10 +107,13 @@ export default function Pane({
 				onOpenChange={() => {
 					setOpenPreviewPane(0);
 					// zoom out when dropping out of preview
-					provider
-						.getWebview()
-						// @ts-ignore
-						.setZoomLevel(provider.getWebview().getZoomLevel() - 2);
+					const resetZoom = async () => {
+						const zoomSetting = await window.settings.getZoomSetting();
+						provider
+							.getWebview()
+							.setZoomLevel(provider.getWebview().getZoomLevel() - zoomSetting);
+					};
+					resetZoom();
 					window.electron.mainWindow.focusSuperprompt();
 				}}
 			>
@@ -197,7 +171,7 @@ export default function Pane({
 									<ReloadIcon />
 								</XButton>
 								<XButton
-									tooltip={`Go Back`} // : ${CmdOrCtrlKey} + H`}
+									tooltip={`Go Back`}
 									onClick={() => {
 										provider.getWebview()?.goBack();
 									}}
@@ -205,7 +179,7 @@ export default function Pane({
 									<ArrowLeftIcon />
 								</XButton>
 								<XButton
-									tooltip={`Go forward`} // : ${CmdOrCtrlKey} + L`}
+									tooltip={`Go forward`}
 									onClick={() => {
 										provider.getWebview()?.goForward();
 									}}

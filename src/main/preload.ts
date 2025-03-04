@@ -82,6 +82,12 @@ contextBridge.exposeInMainWorld('settings', {
 	getOpenAtLogin: () => {
 		return ipcRenderer.invoke('get-open-at-login');
 	},
+	getZoomSetting: () => {
+		return ipcRenderer.invoke('get-zoom-setting');
+	},
+	setZoomSetting: (level: number) => {
+		return ipcRenderer.invoke('set-zoom-setting', level);
+	},
 });
 
 export type ElectronHandler = typeof electronHandler;

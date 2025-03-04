@@ -123,7 +123,7 @@ export default function Layout() {
 
 	const [currentlyOpenPreviewPane, setOpenPreviewPane] = React.useState(0);
 
-	function onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+	async function onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
 		const isCmdOrCtrl = event.metaKey || event.ctrlKey;
 		const isShift = event.shiftKey;
 		console.debug('keydown', event.key, isCmdOrCtrl, event);
@@ -142,10 +142,12 @@ export default function Layout() {
 					(provider) =>
 						provider.webviewId === storedPaneList[digit - 1].webviewId,
 				);
+				const zoomSetting =
+					// @ts-ignore
+					previewProvider.getWebview()?.getZoomLevel() +
+					(await window.settings.getZoomSetting());
 				// @ts-ignore
-				const zoomLevel = previewProvider.getWebview()?.getZoomLevel() + 2;
-				// @ts-ignore
-				previewProvider.getWebview().setZoomLevel(zoomLevel);
+				previewProvider.getWebview().setZoomLevel(zoomSetting);
 			}
 		} else if (isCmdOrCtrl && isShift && event.key.toLowerCase() === 'a') {
 			window.electron.browserWindow.reload();
@@ -246,7 +248,7 @@ export default function Layout() {
 						name="prompt"
 						placeholder={`Enter a superprompt here.
 - Quick Open: ${CmdOrCtrlKey}+Shift+G or Submit: ${CmdOrCtrlKey}+Enter
-- Switch windows: ${CmdOrCtrlKey}+1/2/3/etc, or Global Resize/Pin: ${CmdOrCtrlKey} -/+/p, or Back/Fwd: ${CmdOrCtrlKey} H/L
+- Switch windows: ${CmdOrCtrlKey}+1/2/3/etc, or Global Resize/Pin: ${CmdOrCtrlKey} -/+/p
 - New chat: ${CmdOrCtrlKey}+R or Reset windows evenly: ${CmdOrCtrlKey}+Shift+A`}
 					/>
 					<div className="flex items-center justify-center p-4 space-x-2">
