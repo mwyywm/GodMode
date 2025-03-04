@@ -149,6 +149,7 @@ export default function Layout() {
 			}
 		} else if (isCmdOrCtrl && isShift && event.key.toLowerCase() === 'a') {
 			window.electron.browserWindow.reload();
+			window.electron.mainWindow.focusSuperprompt();
 		} else if (
 			(isCmdOrCtrl && event.key === '+') ||
 			(isCmdOrCtrl && event.key === '=')
